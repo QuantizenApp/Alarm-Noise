@@ -26,58 +26,35 @@ class ViewController: UIViewController, AVAudioPlayerDelegate, AVAudioRecorderDe
     let LEVEL_THREHOLD: Float = 90.0
     let correction: Float = 100.0
     
-    var modeArray = ["noiseAlarm","volummUp","protectEar"]
-    var modeIndex: Int = 0
-    
     //@IBOutlet weak var dbValueLabel: UILabel!
     @IBOutlet weak var dbPeakValue: UILabel!
     @IBOutlet weak var dbMaxValue: UILabel!
     @IBOutlet weak var dbAverageValue: UILabel!
     @IBOutlet weak var dbWarningLevel: UISlider!
-    
-    @IBOutlet weak var noiseAlarmModeBtn: UIButton!
-    @IBOutlet weak var volummUpBtn: UIButton!
-    @IBOutlet weak var protectEarBtn: UIButton!
+    @IBOutlet weak var segmentedModeControl: UISegmentedControl!
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        noiseAlarmModeBtn.isSelected = true
-        volummUpBtn.isSelected = false
-        protectEarBtn.isSelected = false
-        modeIndex = 0
-    }
-
-    
-    @IBAction func toggleNoiseAlarmMode(_ sender: Any) {
-        if !noiseAlarmModeBtn.isSelected {
-            noiseAlarmModeBtn.isSelected = true
-            volummUpBtn.isSelected = false
-            protectEarBtn.isSelected = false
-            modeIndex = 0
-        }
-    }
-    
-    @IBAction func toggleVolummUpMode(_ sender: Any) {
-        if !volummUpBtn.isSelected {
-            noiseAlarmModeBtn.isSelected = false
-            volummUpBtn.isSelected = true
-            protectEarBtn.isSelected = false
-            modeIndex = 1
-        }
-    }
-    
-    @IBAction func toggleProtectEarMode(_ sender: Any) {
-        if !protectEarBtn.isSelected {
-            noiseAlarmModeBtn.isSelected = false
-            volummUpBtn.isSelected = false
-            protectEarBtn.isSelected = true
-            modeIndex = 2
-        }
     }
     
     @IBAction func measureNoise(_ sender: UIButton) {
         startRecordingNoise()
+    }
+    @IBAction func switchModeWarning(_ sender: UISegmentedControl) {
+        switch segmentedModeControl.selectedSegmentIndex {
+        case 0:
+            warningLevel = 90.0
+        case 1:
+            warningLevel = 65.0
+        case 2:
+            warningLevel = 80
+        default:
+            break
+        }
+        dbWarningLevel.value = warningLevel
+        print(warningLevel)
     }
     
     @IBAction func setWarningLevel(_ sender: UISlider) {
