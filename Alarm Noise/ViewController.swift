@@ -99,7 +99,7 @@ class ViewController: UIViewController, AVAudioPlayerDelegate, AVAudioRecorderDe
     
     func showWarning(){
         let message = "Press OK To Stop Warning Sound"
-        let warning = UIAlertController(title: "TOO NOISE!!!", message: message, preferredStyle: .alert)
+        let warning = UIAlertController(title: "TOO NOISY!!!", message: message, preferredStyle: .alert)
         let action = UIAlertAction(title: "Stop Warning", style: .default, handler: {action in self.stopSound()})
         warning.addAction(action)
         present(warning,animated: true, completion: nil)
@@ -130,7 +130,7 @@ class ViewController: UIViewController, AVAudioPlayerDelegate, AVAudioRecorderDe
         noiseRecorder.record()
             
         levelTimer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(levelTimerCallback), userInfo: nil, repeats: true)
-        levelTimerArg = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(levelTimerCallbackArg), userInfo: nil, repeats: true)
+        levelTimerArg = Timer.scheduledTimer(timeInterval: 1.5, target: self, selector: #selector(levelTimerCallbackArg), userInfo: nil, repeats: true)
     }
     
     @objc func levelTimerCallback(){
@@ -141,11 +141,7 @@ class ViewController: UIViewController, AVAudioPlayerDelegate, AVAudioRecorderDe
         if peakValue > maxValue {
             maxValue = peakValue
         }
-        let isLoud = peakValue > warningLevel
-        if isLoud {
-            playSound()
-            showWarning()
-        }
+        
         dbPeakValue.text = String(Int(peakValue))
         dbMaxValue.text = String(Int(maxValue))
     }
@@ -156,6 +152,11 @@ class ViewController: UIViewController, AVAudioPlayerDelegate, AVAudioRecorderDe
         let averageNoise = noiseRecorder.averagePower(forChannel: 0) + correction
 
         dbAverageValue.text = String(Int(averageNoise))
+        let isLoud = averageNoise > warningLevel
+        if isLoud {
+            playSound()
+            showWarning()
+        }
 
     }
         
