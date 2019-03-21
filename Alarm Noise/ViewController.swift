@@ -16,14 +16,20 @@ class ViewController: UIViewController, AVAudioPlayerDelegate, AVAudioRecorderDe
     //var noiseRecordingSession: AVAudioSession!
     var noiseRecorder: AVAudioRecorder!
     var levelTimer = Timer()
+    var levelTimerArg = Timer()
+    var peakValue: Float = 0
+    var argValue: Float = 0
+    var maxValue: Float = 0
     
-    let LEVEL_THREHOLD: Float = 90.0
+    
+    let LEVEL_THREHOLD: Float = 95.0
+    let correction: Float = 100.0
     
     var modeArray = ["noiseAlarm","volummUp","protectEar"]
     var modeIndex: Int = 0
     
     @IBOutlet weak var dbValueLabel: UILabel!
-    
+    @IBOutlet weak var dbMaxValue: UILabel!
     @IBOutlet weak var dbAverageValue: UILabel!
     
     @IBOutlet weak var noiseAlarmModeBtn: UIButton!
@@ -73,7 +79,7 @@ class ViewController: UIViewController, AVAudioPlayerDelegate, AVAudioRecorderDe
     
     
     func playSound(){
-        let path = Bundle.main.path(forResource: "tone_22", ofType: "wav")!
+        let path = Bundle.main.path(forResource: "signal-alert3", ofType: "mp3")!
         let url = URL(fileURLWithPath: path)
         
         do {
@@ -83,6 +89,10 @@ class ViewController: UIViewController, AVAudioPlayerDelegate, AVAudioRecorderDe
             // couldn't load file :(
         }
     }
+    func stopSound(){
+        alarmSound?.stop()
+    }
+    
     func startRecordingNoise(){
         let audioFilename = getDocumentsDirectory().appendingPathComponent("noise.caf")
         let recordSettings : [String: Any] = [
@@ -107,26 +117,35 @@ class ViewController: UIViewController, AVAudioPlayerDelegate, AVAudioRecorderDe
         noiseRecorder.isMeteringEnabled = true
         noiseRecorder.record()
             
-        levelTimer = Timer.scheduledTimer(timeInterval: 0.3, target: self, selector: #selector(levelTimerCallback), userInfo: nil, repeats: true)
+        levelTimer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(levelTimerCallback), userInfo: nil, repeats: true)
+        levelTimerArg = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(levelTimerCallbackArg), userInfo: nil, repeats: true)
     }
     
     @objc func levelTimerCallback(){
+        
         noiseRecorder.updateMeters()
+ 
+        peakValue = noiseRecorder.peakPower(forChannel: 0) + correction
+        if peakValue > maxValue {
+            maxValue = peakValue
+        }
         
-        // NOTE: seems to be the approx correction to get real decibels
-        let correction: Float = 100
+        dbValueLabel.text = String(Int(peakValue))
+        dbMaxValue.text = String(Int(maxValue))
+    }
+    
+    @objc func levelTimerCallbackArg(){
+        noiseRecorder.updateMeters()
+ 
         let averageNoise = noiseRecorder.averagePower(forChannel: 0) + correction
-        let peakNoise = noiseRecorder.peakPower(forChannel: 0) + correction
-        
-        //let levelNoise = noiseRecorder.averagePower(forChannel: 0)
-        //let dbValue = dBFS_convertTo_dB(dBFSValue: levelNoise)
+
         let isLoud = averageNoise > LEVEL_THREHOLD
         if isLoud {
             playSound()
         }
-        dbValueLabel.text = String(Int(peakNoise))
+
         dbAverageValue.text = String(Int(averageNoise))
-        //print(averageNoise)
+
     }
         
     func getDocumentsDirectory()->URL {
@@ -137,26 +156,6 @@ class ViewController: UIViewController, AVAudioPlayerDelegate, AVAudioRecorderDe
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated
-    }
-
-    func dBFS_convertTo_dB (dBFSValue: Float)->Float {
-        var level: Float = 0.0
-        let peak_bottom: Float = -60.0 //dBFS -> -160.0..0 so it can be -80 or -60
-        if dBFSValue < peak_bottom {
-            level = 0.0
-        } else if dBFSValue >= 0.0 {
-            level = 1.0
-        } else {
-            let root: Float = 2.0
-            let minAmp: Float = powf(10.0, 0.05 * peak_bottom)
-            let inverseAmpRange: Float = 1.0 / (1.0 - minAmp)
-            let amp: Float = powf(10.0, 0.05 * dBFSValue)
-            let adjAmp: Float = (amp - minAmp) * inverseAmpRange
-            
-            level = powf(adjAmp, 1.0/root)
-            
-        }
-        return level
     }
     
 }
