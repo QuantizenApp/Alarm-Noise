@@ -10,6 +10,7 @@
 		67B428D42241055700AA068B /* signal-alert.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 67B428D32241055700AA068B /* signal-alert.mp3 */; };
 		67B428D62242251300AA068B /* signal-alert2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 67B428D52242251300AA068B /* signal-alert2.mp3 */; };
 		67B428D82242257D00AA068B /* signal-alert3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 67B428D72242257C00AA068B /* signal-alert3.mp3 */; };
+		67B428DA22436A2F00AA068B /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67B428D922436A2F00AA068B /* AboutViewController.swift */; };
 		840CB23921EAFF260020B83F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840CB23821EAFF260020B83F /* AppDelegate.swift */; };
 		840CB23B21EAFF260020B83F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840CB23A21EAFF260020B83F /* ViewController.swift */; };
 		840CB23E21EAFF260020B83F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 840CB23C21EAFF260020B83F /* Main.storyboard */; };
@@ -24,6 +25,7 @@
 		67B428D32241055700AA068B /* signal-alert.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "signal-alert.mp3"; path = "../../../../Downloads/signal-alert.mp3"; sourceTree = "<group>"; };
 		67B428D52242251300AA068B /* signal-alert2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "signal-alert2.mp3"; path = "../../../../Documents/signal-alert2.mp3"; sourceTree = "<group>"; };
 		67B428D72242257C00AA068B /* signal-alert3.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "signal-alert3.mp3"; path = "../../../../Documents/signal-alert3.mp3"; sourceTree = "<group>"; };
+		67B428D922436A2F00AA068B /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		840CB23521EAFF260020B83F /* Alarm Noise.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Alarm Noise.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		840CB23821EAFF260020B83F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		840CB23A21EAFF260020B83F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -70,6 +72,7 @@
 				840CB23821EAFF260020B83F /* AppDelegate.swift */,
 				840CB23A21EAFF260020B83F /* ViewController.swift */,
 				840CB23C21EAFF260020B83F /* Main.storyboard */,
+				67B428D922436A2F00AA068B /* AboutViewController.swift */,
 				840CB23F21EAFF290020B83F /* Assets.xcassets */,
 				840CB24121EAFF290020B83F /* LaunchScreen.storyboard */,
 				840CB24421EAFF290020B83F /* Info.plist */,
@@ -167,6 +170,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				67B428DA22436A2F00AA068B /* AboutViewController.swift in Sources */,
 				840CB23B21EAFF260020B83F /* ViewController.swift in Sources */,
 				840CB23921EAFF260020B83F /* AppDelegate.swift in Sources */,
 			);
