@@ -22,7 +22,7 @@ class ViewController: UIViewController, AVAudioPlayerDelegate, AVAudioRecorderDe
     var maxValue: Float = 0
     
     
-    let LEVEL_THREHOLD: Float = 95.0
+    let LEVEL_THREHOLD: Float = 90.0
     let correction: Float = 100.0
     
     var modeArray = ["noiseAlarm","volummUp","protectEar"]
@@ -93,6 +93,14 @@ class ViewController: UIViewController, AVAudioPlayerDelegate, AVAudioRecorderDe
         alarmSound?.stop()
     }
     
+    func showWarning(){
+        let message = "Press OK To Stop Warning Sound"
+        let warning = UIAlertController(title: "TOO NOISE!!!", message: message, preferredStyle: .alert)
+        let action = UIAlertAction(title: "Stop Warning", style: .default, handler: {action in self.stopSound()})
+        warning.addAction(action)
+        present(warning,animated: true, completion: nil)
+    }
+    
     func startRecordingNoise(){
         let audioFilename = getDocumentsDirectory().appendingPathComponent("noise.caf")
         let recordSettings : [String: Any] = [
@@ -129,7 +137,11 @@ class ViewController: UIViewController, AVAudioPlayerDelegate, AVAudioRecorderDe
         if peakValue > maxValue {
             maxValue = peakValue
         }
-        
+        let isLoud = peakValue > LEVEL_THREHOLD
+        if isLoud {
+            playSound()
+            showWarning()
+        }
         dbValueLabel.text = String(Int(peakValue))
         dbMaxValue.text = String(Int(maxValue))
     }
@@ -138,11 +150,6 @@ class ViewController: UIViewController, AVAudioPlayerDelegate, AVAudioRecorderDe
         noiseRecorder.updateMeters()
  
         let averageNoise = noiseRecorder.averagePower(forChannel: 0) + correction
-
-        let isLoud = averageNoise > LEVEL_THREHOLD
-        if isLoud {
-            playSound()
-        }
 
         dbAverageValue.text = String(Int(averageNoise))
 
