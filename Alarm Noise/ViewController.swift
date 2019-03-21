@@ -20,10 +20,10 @@ class ViewController: UIViewController, AVAudioPlayerDelegate, AVAudioRecorderDe
     var peakValue: Float = 0
     var argValue: Float = 0
     var maxValue: Float = 0
-    var warningLevel: Float = 90.0
+    var warningLevel: Float = 80.0
     
     
-    let LEVEL_THREHOLD: Float = 90.0
+    let LEVEL_THREHOLD: Float = 80.0
     let correction: Float = 100.0
     
     //@IBOutlet weak var dbValueLabel: UILabel!
@@ -65,11 +65,11 @@ class ViewController: UIViewController, AVAudioPlayerDelegate, AVAudioRecorderDe
     @IBAction func switchModeWarning(_ sender: UISegmentedControl) {
         switch segmentedModeControl.selectedSegmentIndex {
         case 0:
-            warningLevel = 90.0
+            warningLevel = 80.0
         case 1:
-            warningLevel = 65.0
+            warningLevel = 90.0
         case 2:
-            warningLevel = 80
+            warningLevel = 65.0
         default:
             break
         }
