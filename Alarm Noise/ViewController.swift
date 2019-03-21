@@ -20,6 +20,7 @@ class ViewController: UIViewController, AVAudioPlayerDelegate, AVAudioRecorderDe
     var peakValue: Float = 0
     var argValue: Float = 0
     var maxValue: Float = 0
+    var warningLevel: Float = 90.0
     
     
     let LEVEL_THREHOLD: Float = 90.0
@@ -28,9 +29,11 @@ class ViewController: UIViewController, AVAudioPlayerDelegate, AVAudioRecorderDe
     var modeArray = ["noiseAlarm","volummUp","protectEar"]
     var modeIndex: Int = 0
     
-    @IBOutlet weak var dbValueLabel: UILabel!
+    //@IBOutlet weak var dbValueLabel: UILabel!
+    @IBOutlet weak var dbPeakValue: UILabel!
     @IBOutlet weak var dbMaxValue: UILabel!
     @IBOutlet weak var dbAverageValue: UILabel!
+    @IBOutlet weak var dbWarningLevel: UISlider!
     
     @IBOutlet weak var noiseAlarmModeBtn: UIButton!
     @IBOutlet weak var volummUpBtn: UIButton!
@@ -77,6 +80,10 @@ class ViewController: UIViewController, AVAudioPlayerDelegate, AVAudioRecorderDe
         startRecordingNoise()
     }
     
+    @IBAction func setWarningLevel(_ sender: UISlider) {
+        warningLevel = dbWarningLevel.value
+        //print(warningLevel)
+    }
     
     func playSound(){
         let path = Bundle.main.path(forResource: "signal-alert3", ofType: "mp3")!
@@ -126,7 +133,7 @@ class ViewController: UIViewController, AVAudioPlayerDelegate, AVAudioRecorderDe
         noiseRecorder.record()
             
         levelTimer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(levelTimerCallback), userInfo: nil, repeats: true)
-        levelTimerArg = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(levelTimerCallbackArg), userInfo: nil, repeats: true)
+        levelTimerArg = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(levelTimerCallbackArg), userInfo: nil, repeats: true)
     }
     
     @objc func levelTimerCallback(){
@@ -137,12 +144,12 @@ class ViewController: UIViewController, AVAudioPlayerDelegate, AVAudioRecorderDe
         if peakValue > maxValue {
             maxValue = peakValue
         }
-        let isLoud = peakValue > LEVEL_THREHOLD
+        let isLoud = peakValue > warningLevel
         if isLoud {
             playSound()
             showWarning()
         }
-        dbValueLabel.text = String(Int(peakValue))
+        dbPeakValue.text = String(Int(peakValue))
         dbMaxValue.text = String(Int(maxValue))
     }
     
