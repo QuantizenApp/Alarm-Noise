@@ -37,6 +37,21 @@ class ViewController: UIViewController, AVAudioPlayerDelegate, AVAudioRecorderDe
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        let thumbImageNormal = #imageLiteral(resourceName: "SliderThumb-Normal")
+        dbWarningLevel.setThumbImage(thumbImageNormal, for: .normal)
+        
+        let thumbImageHighted = #imageLiteral(resourceName: "SliderThumb-Highlighted")
+        dbWarningLevel.setThumbImage(thumbImageHighted, for: .highlighted)
+        
+        let insets = UIEdgeInsets(top: 0, left: 14, bottom: 0, right: 14)
+        
+        let trackLeftImage = #imageLiteral(resourceName: "SliderTrackLeft")
+        let trackLeftResizable = trackLeftImage.resizableImage(withCapInsets: insets)
+        dbWarningLevel.setMinimumTrackImage(trackLeftResizable, for: .normal)
+        
+        let trackRightImage = #imageLiteral(resourceName: "SliderTrackRight")
+        let trackRightResizable = trackRightImage.resizableImage(withCapInsets: insets)
+        dbWarningLevel.setMaximumTrackImage(trackRightResizable, for: .normal)
     }
     
     @IBAction func measureNoise(_ sender: UIButton) {
