@@ -52,6 +52,11 @@ class ViewController: UIViewController, AVAudioPlayerDelegate, AVAudioRecorderDe
         let trackRightImage = #imageLiteral(resourceName: "SliderTrackRight")
         let trackRightResizable = trackRightImage.resizableImage(withCapInsets: insets)
         dbWarningLevel.setMaximumTrackImage(trackRightResizable, for: .normal)
+        
+        let imageBackground = #imageLiteral(resourceName: "Button-Normal")
+        //let imageVolumnUp = #imageLiteral(resourceName: "SliderThumb-Highlighted")
+        segmentedModeControl.setBackgroundImage(imageBackground, for: .normal, barMetrics: .compact)
+        //segmentedModeControl.setImage(imageVolumnUp, forSegmentAt: 1)
     }
     
     @IBAction func measureNoise(_ sender: UIButton) {
