@@ -21,7 +21,7 @@ class ViewController: UIViewController, AVAudioPlayerDelegate, AVAudioRecorderDe
     var argValue: Float = 0
     var maxValue: Float = 0
     var warningLevel: Float = 70.0
-    
+    var warningOnOff: Bool = false
     
     let LEVEL_THREHOLD: Float = 70.0
     let correction: Float = 100.0
@@ -30,12 +30,15 @@ class ViewController: UIViewController, AVAudioPlayerDelegate, AVAudioRecorderDe
     @IBOutlet weak var dbPeakValue: UILabel!
     @IBOutlet weak var dbMaxValue: UILabel!
     @IBOutlet weak var dbAverageValue: UILabel!
+    @IBOutlet weak var dbWarningLevelLabel: UILabel!
     @IBOutlet weak var dbWarningLevel: UISlider!
     @IBOutlet weak var segmentedModeControl: UISegmentedControl!
-
+    @IBOutlet weak var warningOnOffLabel: UISwitch!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        dbWarningLevelLabel.text = String(warningLevel.rounded())
         // Do any additional setup after loading the view, typically from a nib.
         let thumbImageNormal = #imageLiteral(resourceName: "SliderThumb-Normal")
         dbWarningLevel.setThumbImage(thumbImageNormal, for: .normal)
@@ -58,6 +61,14 @@ class ViewController: UIViewController, AVAudioPlayerDelegate, AVAudioRecorderDe
         segmentedModeControl.setBackgroundImage(imageBackground, for: .normal, barMetrics: .compact)
         //segmentedModeControl.setImage(imageVolumnUp, forSegmentAt: 1)
     }
+    @IBAction func warningOnOffSetting(_ sender: UISwitch) {
+        if warningOnOffLabel.isOn {
+            warningOnOff = true
+        } else {
+            warningOnOff = false
+        }
+        print(warningOnOff)
+    }
     
     @IBAction func measureNoise(_ sender: UIButton) {
         startRecordingNoise()
@@ -74,20 +85,23 @@ class ViewController: UIViewController, AVAudioPlayerDelegate, AVAudioRecorderDe
             break
         }
         dbWarningLevel.value = warningLevel
-        print(warningLevel)
+        dbWarningLevelLabel.text = String(warningLevel.rounded())
     }
     
     @IBAction func setWarningLevel(_ sender: UISlider) {
         warningLevel = dbWarningLevel.value
+        dbWarningLevelLabel.text = String(warningLevel.rounded())
         //print(warningLevel)
+        
     }
     
     func playSound(){
-        let path = Bundle.main.path(forResource: "signal-alert3", ofType: "mp3")!
+        let path = Bundle.main.path(forResource: "signal-alert4", ofType: "mp3")!
         let url = URL(fileURLWithPath: path)
         
         do {
             alarmSound = try AVAudioPlayer(contentsOf: url)
+            alarmSound?.numberOfLoops = -1
             alarmSound?.play()
         } catch {
             // couldn't load file :(
@@ -100,7 +114,11 @@ class ViewController: UIViewController, AVAudioPlayerDelegate, AVAudioRecorderDe
     func showWarning(){
         let message = "Press OK To Stop Warning Sound"
         let warning = UIAlertController(title: "TOO NOISY!!!", message: message, preferredStyle: .alert)
-        let action = UIAlertAction(title: "Stop Warning", style: .default, handler: {action in self.stopSound()})
+        let action = UIAlertAction(title: "OK", style: .default, handler:
+        {
+            action in
+            self.stopSound()}
+        )
         warning.addAction(action)
         present(warning,animated: true, completion: nil)
     }
@@ -130,7 +148,7 @@ class ViewController: UIViewController, AVAudioPlayerDelegate, AVAudioRecorderDe
         noiseRecorder.record()
             
         levelTimer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(levelTimerCallback), userInfo: nil, repeats: true)
-        levelTimerArg = Timer.scheduledTimer(timeInterval: 1.5, target: self, selector: #selector(levelTimerCallbackArg), userInfo: nil, repeats: true)
+        levelTimerArg = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(levelTimerCallbackArg), userInfo: nil, repeats: true)
     }
     
     @objc func levelTimerCallback(){
@@ -153,7 +171,7 @@ class ViewController: UIViewController, AVAudioPlayerDelegate, AVAudioRecorderDe
 
         dbAverageValue.text = String(Int(averageNoise))
         let isLoud = averageNoise > warningLevel
-        if isLoud {
+        if isLoud && warningOnOff {
             playSound()
             showWarning()
         }

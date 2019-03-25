@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		67A3C4592246745100B346BD /* signal-alert4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 67A3C4582246745100B346BD /* signal-alert4.mp3 */; };
 		67B428D42241055700AA068B /* signal-alert.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 67B428D32241055700AA068B /* signal-alert.mp3 */; };
 		67B428D62242251300AA068B /* signal-alert2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 67B428D52242251300AA068B /* signal-alert2.mp3 */; };
 		67B428D82242257D00AA068B /* signal-alert3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 67B428D72242257C00AA068B /* signal-alert3.mp3 */; };
@@ -22,6 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		67A3C4582246745100B346BD /* signal-alert4.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "signal-alert4.mp3"; path = "../../../../Documents/signal-alert4.mp3"; sourceTree = "<group>"; };
 		67B428D32241055700AA068B /* signal-alert.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "signal-alert.mp3"; path = "../../../../Downloads/signal-alert.mp3"; sourceTree = "<group>"; };
 		67B428D52242251300AA068B /* signal-alert2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "signal-alert2.mp3"; path = "../../../../Documents/signal-alert2.mp3"; sourceTree = "<group>"; };
 		67B428D72242257C00AA068B /* signal-alert3.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "signal-alert3.mp3"; path = "../../../../Documents/signal-alert3.mp3"; sourceTree = "<group>"; };
@@ -84,10 +86,11 @@
 			isa = PBXGroup;
 			children = (
 				67B428D32241055700AA068B /* signal-alert.mp3 */,
-				840CB24F21EB9C050020B83F /* tone_22.wav */,
-				840CB24D21EB94380020B83F /* Claxon.wav */,
 				67B428D52242251300AA068B /* signal-alert2.mp3 */,
 				67B428D72242257C00AA068B /* signal-alert3.mp3 */,
+				67A3C4582246745100B346BD /* signal-alert4.mp3 */,
+				840CB24F21EB9C050020B83F /* tone_22.wav */,
+				840CB24D21EB94380020B83F /* Claxon.wav */,
 				840CB24B21EB022B0020B83F /* bell.wav */,
 			);
 			path = "sound effects";
@@ -157,6 +160,7 @@
 				840CB25021EB9C060020B83F /* tone_22.wav in Resources */,
 				67B428D42241055700AA068B /* signal-alert.mp3 in Resources */,
 				67B428D62242251300AA068B /* signal-alert2.mp3 in Resources */,
+				67A3C4592246745100B346BD /* signal-alert4.mp3 in Resources */,
 				840CB23E21EAFF260020B83F /* Main.storyboard in Resources */,
 				840CB24E21EB94380020B83F /* Claxon.wav in Resources */,
 				840CB24C21EB022B0020B83F /* bell.wav in Resources */,
@@ -322,7 +326,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = QUDSH87PQH;
 				INFOPLIST_FILE = "Alarm Noise/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -343,7 +347,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = QUDSH87PQH;
 				INFOPLIST_FILE = "Alarm Noise/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
